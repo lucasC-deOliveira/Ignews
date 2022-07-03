@@ -55,6 +55,7 @@ if(session?.activeSubscription){
   )
 }
 
+//rotas estaticas que devem ser geradas na build
 export const getStaticPaths = () => {
   return {
     paths: [],
@@ -83,6 +84,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   return {
     props: {
       post
-    }
+    },
+    redirect:60 * 30
   }
 }
