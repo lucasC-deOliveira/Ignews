@@ -7,6 +7,7 @@ import Link from "next/link"
 import { useEffect } from "react"
 import { useSession } from "next-auth/react"
 import router from "next/router"
+import { useRouter } from 'next/router' // Importar o useRouter
 
 
 interface PostPreviewProps {
@@ -20,15 +21,19 @@ interface PostPreviewProps {
 }
 
 
-export default function PostPreview({ post }: PostPreviewProps) {
-  const {data:session}= useSession()
 
-  useEffect(()=>{
-if(session?.activeSubscription){
-  router.push(`/posts/${post.slug}`)
-}
-  },[session])
- 
+
+export default function PostPreview({ post }: PostPreviewProps){
+    const { data: session } = useSession()
+    const router = useRouter() //Chamar o useRouter
+
+    useEffect(() => {
+        if(session?.activeSubscription){
+            router.push(`/posts/${post.slug}`) //Utilizar o router do useRouter
+        }
+    }, [session])
+
+
   return (
     <>
       <Head>
@@ -46,7 +51,7 @@ if(session?.activeSubscription){
           <div className={styles.continueReading}>
             Wanna continue reading ?
             <Link href="/">
-            <a>Subscribe now 🤗</a>
+              <a>Subscribe now 🤗</a>
             </Link>
           </div>
         </article>
@@ -85,6 +90,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     props: {
       post
     },
-    redirect:60 * 30
+    redirect: 60 * 30
   }
 }
